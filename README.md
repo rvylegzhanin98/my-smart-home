@@ -44,7 +44,36 @@ binary_sensor:
       - delayed_off: 250ms
 ```
 
-
+### Автоматизация для включения света
+```yaml
+alias: Aвтоматическое включение света в прихожей (1)
+description: He, ну реально бесит
+trigger:
+  - type: opened
+    platform: device
+    device_id: e6be8bc3ae7f5c24c6a079da49a8ebc5
+    entity_id: binary_sensor.tuyatec_d79sfnqe_rh3001_iaszone
+    domain: binary_sensor
+  - platform: state
+    entity_id:
+    - binary_sensor.distance_sensor_ultrasonic_presence
+    from: "off"
+    to: "on"
+    for:
+    hours: 0
+    minutes: 0
+    seconds: 0
+condition: []
+action:
+  - service: light.turn_on
+    data: {}
+    target:
+    entity_id: light.gs_brhm@e27w70_i1_light
+  - service: timer.cancel
+    data: {}
+    target:
+    entity_id: timer.tainer_dlia_upravleniia_svetom_v_prikhozheimode: single
+```
 
 
 Передаем сообщение через Siri на колонку с Алисой используя Home Assistant
